@@ -5,8 +5,12 @@ import json
 from handlers import register
 from utils import semantic
 
-# ВСТАВЛЕННЫЙ ТОКЕН напрямую (можно заменить на os.getenv позже)
-bot = telebot.TeleBot("7803913336:AAGQQFqJMpjS56VewVw94pLcArifsUOIj_I")
+# Безопасное получение токена из переменной окружения
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+if not TELEGRAM_TOKEN:
+    raise ValueError("Токен Telegram не найден! Убедитесь, что TELEGRAM_TOKEN установлен в переменных среды.")
+
+bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start(message):
