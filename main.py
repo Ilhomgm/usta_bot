@@ -5,7 +5,8 @@ import json
 from handlers import register
 from utils import semantic
 
-bot = telebot.TeleBot(os.getenv("TELEGRAM_TOKEN", "your_token_here"))
+# ВСТАВЛЕННЫЙ ТОКЕН напрямую (можно заменить на os.getenv позже)
+bot = telebot.TeleBot("7803913336:AAGQQFqJMpjS56VewVw94pLcArifsUOIj_I")
 
 @bot.message_handler(commands=['start'])
 def start(message):
