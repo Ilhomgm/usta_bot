@@ -1,0 +1,6 @@
+telebot
+Flask
+requests
+openai
+SpeechRecognition
+gunicorn
