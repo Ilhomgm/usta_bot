@@ -1,0 +1,175 @@
+body {
+    background: #121212;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 480px;
+    margin: auto;
+}
+.card {
+    background: #1e1e1e;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+}
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.info p {
+    margin: 4px 0;
+}
+.buttons {
+    margin-top: 10px;
+}
+.buttons button {
+    background: #2979ff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.buttons button:hover {
+    background: #5393ff;
+}
+
+.gallery {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.gallery img {
+    width: 100%;
+    max-width: 150px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.6);
+}
+
+
+.status-online {
+    color: #00ff88;
+    font-weight: bold;
+}
+.status-busy {
+    color: #ff5555;
+    font-weight: bold;
+}
+
+
+a.button {
+    background: #00bcd4;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-right: 10px;
+    display: inline-block;
+}
+a.button:hover {
+    background: #00acc1;
+}
+
+
+.lang-switch {
+    text-align: right;
+    margin-bottom: 10px;
+}
+.lang {
+    color: #ccc;
+    margin-left: 10px;
+    text-decoration: none;
+}
+.lang:hover {
+    color: #fff;
+}
+
+
+.reviews {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 12px;
+}
+.review {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+
+.review-form {
+    margin-top: 20px;
+    background: rgba(0,0,0,0.05);
+    padding: 15px;
+    border-radius: 12px;
+}
+.review-form input, .review-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: none;
+}
+.review-form button {
+    background: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.review-form button:hover {
+    background: #43a047;
+}
+
+
+.upload-photo {
+    margin-top: 20px;
+    background: rgba(0,0,0,0.05);
+    padding: 15px;
+    border-radius: 12px;
+}
+.upload-photo input[type="file"] {
+    margin-bottom: 10px;
+}
+.upload-photo button {
+    background: #ffa000;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.upload-photo button:hover {
+    background: #fb8c00;
+}
+
+
+.trust-score {
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 18px;
+}
+
+
+.bonus-block {
+    background: rgba(0, 255, 100, 0.1);
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
