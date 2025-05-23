@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль мастера</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link id="theme-link" rel="stylesheet" href="/static/dark.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+<script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="lang-switch">
+            <a href="?lang=ru" class="lang">Русский</a>
+            <a href="?lang=uz" class="lang">O'zbek</a>
+            <button onclick="toggleTheme()">Сменить тему</button>
+        </div>
+        <h1>Мастер: Шерзод</h1>
+        <div class="card">
+            <img src="/static/avatar.png" class="avatar" alt="avatar">
+            <div class="info">
+                <p><strong>Профессия:</strong> Электрик</p>
+                <p><strong>Стаж:</strong> 5 лет</p>
+                <p><strong>Языки:</strong> Русский, Узбекский</p>
+                <p><strong>Статус:</strong> <span class="status-online">🟢 В сети</span></p>
+                <div class="buttons">
+                    <a href="tel:+998901234567" class="button">Позвонить</a>
+                    <button>Открыть на карте</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    function toggleTheme() {
+        const themeLink = document.getElementById('theme-link');
+        if (themeLink.getAttribute('href') === '/static/dark.css') {
+            themeLink.setAttribute('href', '/static/light.css');
+            localStorage.setItem('theme', 'light');
+        } else {
+            themeLink.setAttribute('href', '/static/dark.css');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+    window.onload = function() {
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.getElementById('theme-link').setAttribute('href', '/static/' + theme + '.css');
+    }
+</script>
+</body>
+</html>
+    <div class="reviews">
+        <h2>Отзывы клиентов</h2>
+        <div class="review">
+            <p><strong>Азамат:</strong> ★★★★★<br>Отличный мастер, быстро починил проводку.</p>
+        </div>
+        <div class="review">
+            <p><strong>Ирина:</strong> ★★★★☆<br>Работой довольны, но пришёл с опозданием.</p>
+        </div>
+        <div class="review">
+            <p><strong>Фаррух:</strong> ★★★★★<br>Профессионал, рекомендую всем!</p>
+        </div>
+    </div>
+</div>
+    <div class="review-form">
+        <h2>Оставьте отзыв</h2>
+        <form method="POST" action="/submit_review">
+            <label for="author">Ваше имя:</label><br>
+            <input type="text" id="author" name="author" required><br>
+            <label for="text">Отзыв:</label><br>
+            <textarea id="text" name="text" rows="3" required></textarea><br>
+            <label>Оценка:</label><br>
+            <label><input type="radio" name="stars" value="5" checked> ★★★★★</label><br>
+            <label><input type="radio" name="stars" value="4"> ★★★★☆</label><br>
+            <label><input type="radio" name="stars" value="3"> ★★★☆☆</label><br>
+            <button type="submit">Отправить отзыв</button>
+        </form>
+    </div>
+    <div class="upload-photo">
+        <h2>Загрузить фото профиля</h2>
+        <form method="POST" action="/upload_photo" enctype="multipart/form-data">
+            <input type="file" name="photo" accept="image/*" required><br>
+            <button type="submit">Загрузить</button>
+        </form>
+    </div>
+
+
+    <div class="trust-score">
+        <h2>Рейтинг доверия</h2>
+        <p>56.67 / 100</p>
+    </div>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль клиента</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/dark.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Профиль клиента: {{ data.username }}</h1>
+        <h2>История заказов</h2>
+        <ul>
+            {% for order in data.orders %}
+                <li>
+                    {{ order.date }} — {{ order.master }} ({{ order.service }})<br>
+                    Оценка: {{ "★" * order.rating }}<br>
+                    Отзыв: {{ order.review }}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+    <div class="bonus-block">
+        <h2>Бонусы</h2>
+        <p>Ваш баланс: {{ data.bonus_points }} очков</p>
+    </div>

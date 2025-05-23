@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Админ-панель</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/dark.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Заявки и отзывы</h1>
+        <div class="section">
+            <h2>Отзывы</h2>
+            {% for review in reviews %}
+                <div class="review">
+                    <p><strong>{{ review.author }}:</strong> {{ "★" * review.stars }}<br>{{ review.text }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
+    <div class="section">
+        <h2>ТОП мастеров недели</h2>
+        {% for name, count in top %}
+            <p>⭐ {{ name }} — {{ count }} отзыв(ов)</p>
+        {% endfor %}
+    </div>
+    <div class="section">
+        <h2>Активность мастера (заявки по дням)</h2>
+        <ul>
+            {% for day, count in stats.items() %}
+                <li>{{ day }} — {{ count }} заявок</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="section">
+        <h2>Авто-заблокированные мастера</h2>
+        {% for name in blocked %}
+            <p>🚫 {{ name }}</p>
+        {% endfor %}
+    </div>
