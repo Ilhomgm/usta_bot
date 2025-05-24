@@ -3,5 +3,13 @@
   "main_menu_become": "➕ Become a master",
   "main_menu_map": "🗺️ Master map",
   "main_menu_reviews": "⭐ My reviews",
-  "main_menu_settings": "⚙️ Settings"
+  "main_menu_settings": "⚙️ Settings",
+
+  "ask_name": "What is your name?",
+  "ask_profession": "What is your profession?",
+  "ask_location": "Which district or city are you in?",
+  "ask_phone": "Enter your phone number:",
+  "ask_photos": "Please send at least one photo of your work.",
+  "ask_more_photos": "Send more photos or just type anything to finish.",
+  "register_success": "You are now registered as a master!"
 }
