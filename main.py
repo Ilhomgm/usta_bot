@@ -1,45 +1,40 @@
 import telebot
 from telebot import types
 import os
-import json
-from handlers import register
-from utils import semantic
 
-# Безопасное получение токена из переменной окружения
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-if not TELEGRAM_TOKEN:
-    raise ValueError("Токен Telegram не найден! Убедитесь, что TELEGRAM_TOKEN установлен в переменных среды.")
+# Импорт модуля перевода
+from utils.language_manager import translate, detect_language, set_user_language
 
-bot = telebot.TeleBot(TELEGRAM_TOKEN)
+# Инициализация бота
+BOT_TOKEN = os.getenv("BOT_TOKEN", "ВСТАВЬ_СВОЙ_ТОКЕН")
+bot = telebot.TeleBot(BOT_TOKEN)
 
+# Главное меню с переводом
+def main_menu(user_id):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add(
+        translate("main_menu_find", user_id),
+        translate("main_menu_become", user_id),
+        translate("main_menu_map", user_id),
+        translate("main_menu_reviews", user_id),
+        translate("main_menu_settings", user_id)
+    )
+    return markup
+
+# Команда /start
 @bot.message_handler(commands=['start'])
-def start(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🔍 Найти мастера", "➕ Стать мастером")
-    markup.add("🗺️ Карта мастеров", "⚙️ Настройки")
-    
-    # WebApp-кнопка
-    webapp_button = types.KeyboardButton(
-        text="🌐 Открыть визуальный интерфейс",
-        web_app=types.WebAppInfo(url="https://usta-bot-production.up.railway.app/")
-    )
-    markup.add(webapp_button)
+def send_welcome(message):
+    user_id = message.from_user.id
 
-    bot.send_message(
-        message.chat.id,
-        "Добро пожаловать в USTA SuperBot X1!",
-        reply_markup=markup
-    )
+    # Определяем язык пользователя по сообщению и сохраняем
+    detected_lang = detect_language(message.text or message.from_user.first_name)
+    set_user_language(user_id, detected_lang)
 
-@bot.message_handler(func=lambda m: True)
-def handle_text(message):
-    intent = semantic.semantic_match(message.text)
-    if "мастер" in message.text.lower():
-        bot.send_message(message.chat.id, f"Ищу подходящего мастера по запросу: {intent}")
-    elif "стать мастером" in message.text.lower():
-        register.start_registration(bot, message)
-    else:
-        bot.send_message(message.chat.id, "Пожалуйста, выберите действие из меню или напишите подробнее.")
+    welcome_text = "Welcome to USTA Superbot!"  # Можно тоже перевести, если хочешь
+    bot.send_message(message.chat.id, welcome_text, reply_markup=main_menu(user_id))
 
-print("Бот запущен...")
-bot.polling()
+
+# Запуск
+if __name__ == "__main__":
+    print("USTA Superbot is running...")
+    bot.infinity_polling()
