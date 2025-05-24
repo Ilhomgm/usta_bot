@@ -3,5 +3,13 @@
   "main_menu_become": "➕ Usta bo'lish",
   "main_menu_map": "🗺️ Ustalar xaritasi",
   "main_menu_reviews": "⭐ Fikrlarim",
-  "main_menu_settings": "⚙️ Sozlamalar"
+  "main_menu_settings": "⚙️ Sozlamalar",
+
+  "ask_name": "Ismingiz nima?",
+  "ask_profession": "Qaysi sohada ishlaysiz?",
+  "ask_location": "Qaysi tuman yoki shahardasiz?",
+  "ask_phone": "Telefon raqamingizni kiriting:",
+  "ask_photos": "Iltimos, bajargan ishingizdan kamida bitta surat yuboring.",
+  "ask_more_photos": "Yana rasm yuboring yoki yakunlash uchun har qanday matn yozing.",
+  "register_success": "Siz usta sifatida ro‘yxatdan o‘tdingiz!"
 }
