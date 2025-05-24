@@ -1,51 +1,57 @@
-import json
-import os
+# handlers/register.py
 
-DATA_FILE = "data/masters.json"
-if not os.path.exists(DATA_FILE):
-    with open(DATA_FILE, "w") as f:
-        json.dump([], f)
+import telebot
+from telebot import types
+from utils.database import load_data, save_data
+from utils.language_manager import translate
 
-registration_state = {}
+def init(bot: telebot.TeleBot):
+    @bot.message_handler(func=lambda message: message.text and translate("main_menu_become", message.from_user.id) in message.text)
+    def register_start(message):
+        user_id = message.from_user.id
+        bot.send_message(message.chat.id, translate("ask_name", user_id))
+        bot.register_next_step_handler(message, step_get_name)
 
-def start_registration(bot, message):
-    user_id = message.chat.id
-    registration_state[user_id] = {}
-    bot.send_message(user_id, "Введите ваше имя:")
-
-def handle_registration(bot, message):
-    user_id = message.chat.id
-    state = registration_state.get(user_id, {})
-
-    if "name" not in state:
-        state["name"] = message.text
-        bot.send_message(user_id, "Какая у вас профессия? (например, электрик)")
-    elif "profession" not in state:
-        state["profession"] = message.text
-        bot.send_message(user_id, "Сколько лет вы работаете по профессии?")
-    elif "experience" not in state:
-        state["experience"] = message.text
-        bot.send_message(user_id, "На каких языках вы работаете? (русский, узбекский и т.д.)")
-    elif "languages" not in state:
-        state["languages"] = message.text
-        bot.send_message(user_id, "Отправьте ваше местоположение (включите геолокацию)")
-    elif "location" not in state:
-        bot.send_message(user_id, "Ожидаю ваше местоположение...")
-    registration_state[user_id] = state
-
-def handle_location(bot, message):
-    user_id = message.chat.id
-    state = registration_state.get(user_id, {})
-    if "location" not in state:
-        state["location"] = {
-            "lat": message.location.latitude,
-            "lon": message.location.longitude
+    def step_get_name(message):
+        user_id = message.from_user.id
+        master = {
+            "id": user_id,
+            "name": message.text
         }
-        # Сохраняем мастера
-        with open(DATA_FILE, "r") as f:
-            masters = json.load(f)
-        masters.append(state)
-        with open(DATA_FILE, "w") as f:
-            json.dump(masters, f, ensure_ascii=False, indent=2)
-        bot.send_message(user_id, "Регистрация завершена! Вы добавлены в список мастеров.")
-        registration_state.pop(user_id, None)
+        bot.send_message(message.chat.id, translate("ask_profession", user_id))
+        bot.register_next_step_handler(message, step_get_category, master)
+
+    def step_get_category(message, master):
+        user_id = message.from_user.id
+        master["profession"] = message.text
+        bot.send_message(message.chat.id, translate("ask_location", user_id))
+        bot.register_next_step_handler(message, step_get_location, master)
+
+    def step_get_location(message, master):
+        user_id = message.from_user.id
+        master["location"] = message.text
+        bot.send_message(message.chat.id, translate("ask_phone", user_id))
+        bot.register_next_step_handler(message, step_get_phone, master)
+
+    def step_get_phone(message, master):
+        user_id = message.from_user.id
+        master["phone"] = message.text
+        master["rating"] = 0
+        master["verified"] = False
+        master["gallery"] = []
+
+        bot.send_message(message.chat.id, translate("ask_photos", user_id))
+        bot.register_next_step_handler(message, step_get_photos, master)
+
+    def step_get_photos(message, master):
+        user_id = message.from_user.id
+        if message.photo:
+            photo_id = message.photo[-1].file_id
+            master["gallery"].append(photo_id)
+            bot.send_message(message.chat.id, translate("ask_more_photos", user_id))
+            bot.register_next_step_handler(message, step_get_photos, master)
+        else:
+            all_masters = load_data("data/masters.json")
+            all_masters.append(master)
+            save_data("data/masters.json", all_masters)
+            bot.send_message(message.chat.id, translate("register_success", user_id))
