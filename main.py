@@ -17,7 +17,19 @@ def start(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🔍 Найти мастера", "➕ Стать мастером")
     markup.add("🗺️ Карта мастеров", "⚙️ Настройки")
-    bot.send_message(message.chat.id, "Добро пожаловать в USTA SuperBot X!", reply_markup=markup)
+    
+    # WebApp-кнопка
+    webapp_button = types.KeyboardButton(
+        text="🌐 Открыть визуальный интерфейс",
+        web_app=types.WebAppInfo(url="https://usta-bot-production.up.railway.app/")
+    )
+    markup.add(webapp_button)
+
+    bot.send_message(
+        message.chat.id,
+        "Добро пожаловать в USTA SuperBot X1!",
+        reply_markup=markup
+    )
 
 @bot.message_handler(func=lambda m: True)
 def handle_text(message):
