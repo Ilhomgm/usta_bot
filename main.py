@@ -1,17 +1,21 @@
 import telebot
-from telebot import types
 import os
 
-# Импорт модуля перевода
+# Импорт переводчика и определения языка
 from utils.language_manager import translate, detect_language, set_user_language
 
+# Импорт обработчиков
+from handlers import register, search
+# В будущем можно добавлять:
+# from handlers import market, ai, gallery, settings, reviews
+
 # Инициализация бота
-BOT_TOKEN = os.getenv("BOT_TOKEN", "ВСТАВЬ_СВОЙ_ТОКЕН")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "ВСТАВЬ_СВОЙ_ТОКЕН_ЗДЕСЬ")
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# Главное меню с переводом
+# Главное меню
 def main_menu(user_id):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add(
         translate("main_menu_find", user_id),
         translate("main_menu_become", user_id),
@@ -21,20 +25,29 @@ def main_menu(user_id):
     )
     return markup
 
-# Команда /start
-@bot.message_handler(commands=['start'])
+# Обработчик /start
+@bot.message_handler(commands=["start"])
 def send_welcome(message):
     user_id = message.from_user.id
+    guessed_lang = detect_language(message.text or message.from_user.first_name)
+    set_user_language(user_id, guessed_lang)
 
-    # Определяем язык пользователя по сообщению и сохраняем
-    detected_lang = detect_language(message.text or message.from_user.first_name)
-    set_user_language(user_id, detected_lang)
+    bot.send_message(
+        message.chat.id,
+        "Welcome to USTA Superbot!",
+        reply_markup=main_menu(user_id)
+    )
 
-    welcome_text = "Welcome to USTA Superbot!"  # Можно тоже перевести, если хочешь
-    bot.send_message(message.chat.id, welcome_text, reply_markup=main_menu(user_id))
+# Инициализация всех активных модулей
+register.init(bot)
+search.init(bot)
+# В будущем:
+# market.init(bot)
+# ai.init(bot)
+# settings.init(bot)
+# gallery.init(bot)
 
-
-# Запуск
+# Запуск бота
 if __name__ == "__main__":
     print("USTA Superbot is running...")
     bot.infinity_polling()
