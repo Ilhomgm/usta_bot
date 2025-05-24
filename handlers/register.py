@@ -1,7 +1,7 @@
 import json
 import os
 
-DATA_FILE = "usta_superbot_x/data/masters.json"
+DATA_FILE = "data/masters.json"
 if not os.path.exists(DATA_FILE):
     with open(DATA_FILE, "w") as f:
         json.dump([], f)
